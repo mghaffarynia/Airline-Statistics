@@ -1,3 +1,10 @@
+
+# In this work, I am using a survey that would ask customers to rate various aspects of 
+# their experience, such as comfort of seats, delay handling, friendliness of flight attendants,
+# overall customer satisfaction, and etc. I want to know the key drivers of overall customer 
+# satisfaction to suggest airline how they can improve customer satisfaction.
+
+
 # load package
 library(ggstatsplot)
 
@@ -44,12 +51,14 @@ anova(modelFit3, modelFit2, modelFit1)
 # "seat_cleanliness" are zero.
 
 
-# We can check the residual graph to see if they have a normal distribution with zero mean
+# We can check the residual values to see if they have a normal distribution with zero mean
 # and a fixed variance.
-plot(fitted(modelFit3), resid(modelFit3))
+
+plot(fitted(modelFit3), modelFit3$residuals)
 abline(h = 0)
-qqnorm(resid(modelFit3))
-qqline(resid(modelFit3))
+qqnorm(modelFit3$residuals)
+qqline(modelFit3$residuals)
+
 
 
 # Correlogram for ontime flights to see which coefficients are statistically significant.
@@ -62,7 +71,7 @@ ggstatsplot::ggcorrmat(
 
 # Using backward elimination method for finding drivers of overall satisfaction for ontime flights.
 
-modelFit11 <- lm(overall_customer_satisfaction ~ ., data = data_ontime)
+modelFit11 <- lm((overall_customer_satisfaction) ~ ., data = data_ontime)
 summary(modelFit11)
 
 modelFit22 <- update(modelFit11, .~.-seat_cleanliness)
@@ -82,7 +91,12 @@ anova(modelFit33, modelFit22, modelFit11)
 
 # We can check the residual graph to see if they have a normal distribution with zero mean
 # and a fixed variance.
-plot(fitted(modelFit33), resid(modelFit33))
+
+plot(fitted(modelFit33), modelFit33$residuals)
 abline(h = 0)
-qqnorm(resid(modelFit33))
-qqline(resid(modelFit33))
+qqnorm(modelFit33$residuals)
+qqline(modelFit33$residuals)
+
+
+
+
